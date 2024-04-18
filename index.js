@@ -34,7 +34,7 @@ client.on('ready', async () => {
 
   function loop() {
     // send bump message every 2-3 hours, to prevent detection.
-    var randomNum = 3000
+    var randomNum = Math.round(Math.random() * (9000000 - 7200000 + 1)) + 7200000
     setTimeout(function () {
       bump()
       loop()
