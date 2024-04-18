@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
   if (errorMessage) {
     res.send(`Error: ${errorMessage}`)
   } else {
-    res.send(`Bump Count: ${bumpCount}`)
+    res.send(`Bump Count: ${bumpCount}, channel id: ${process.env.BUMP_CHANNEL}`)
   }
 })
 
