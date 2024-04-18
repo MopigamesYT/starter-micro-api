@@ -3,9 +3,14 @@ const express = require('express')
 const app = express()
 const client = new Client()
 let bumpCount = 0
+let errorMessage = null
 
 app.get('/', (req, res) => {
-  res.send(`Bump Count: ${bumpCount}`)
+  if (errorMessage) {
+    res.send(`Error: ${errorMessage}`)
+  } else {
+    res.send(`Bump Count: ${bumpCount}`)
+  }
 })
 
 app.listen(3000, () => {
@@ -18,9 +23,13 @@ client.on('ready', async () => {
   const channel = await client.channels.fetch(process.env.BUMP_CHANNEL)
 
   async function bump() {
-    await channel.sendSlash('302050872383242240', 'bump')
-    bumpCount++
-    console.count('Bumped!')
+    try {
+      await channel.sendSlash('302050872383242240', 'bump')
+      bumpCount++
+      console.count('Bumped!')
+    } catch (error) {
+      errorMessage = `Error bumping: ${error.message}`
+    }
   }
 
   function loop() {
